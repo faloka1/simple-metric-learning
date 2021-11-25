@@ -1,0 +1,10 @@
+sudo apt-get update
+sudo apt-get install python3-distutils
+sudo apt-get install python3-dev
+sudo apt-get install libev-dev
+sudo apt-get install python3-pip
+
+git clone https://gitlab.com/sindika/research/artificial-intelligence/simple-metric-learning.git
+cd simple-metric-learning/
+pip3 install -r requirements.txt
+python3 server.py
