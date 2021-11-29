@@ -28,14 +28,14 @@ def list_image():
 @app.route('/insert', methods=['POST'])
 def register():
     file = request.files['img']
-    name = request.form['name']
+    product_id = request.form['product_id']
 
     img = Image.open(file.stream)  # PIL image
-    img_path = "static/img/" + name + ".jpg"
+    img_path = "static/img/" + product_id + ".jpg"
     img.save(img_path)
 
     feature = fe.extract(img)
-    feature_path = 'static/feature/' + name + ".npy"
+    feature_path = 'static/feature/' + product_id + ".npy"
     np.save(feature_path, feature)
 
     res = {'success': True}
@@ -56,14 +56,14 @@ def index():
 
     # Save query image
     img = Image.open(file.stream)  # PIL image
-    uploaded_img_path = "static/uploaded/" + datetime.now().isoformat().replace(":", ".") + "_" + file.filename
+    uploaded_img_path = "static/uploaded/" + datetime.now().isoformat().replace(":", ".") + "_.jpg"
     img.save(uploaded_img_path)
 
     # Run search
     query = fe.extract(img)
     dists = np.linalg.norm(features-query, axis=1)  # L2 distances to features
     ids = np.argsort(dists)[:30]  # Top 30 results
-    scores = [(img_paths[id], str(dists[id])) for id in ids]
+    scores = [img_paths[id] for id in ids]
 
     return json.dumps(scores)
 
